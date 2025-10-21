@@ -1,1 +1,27 @@
-node_modules/
+# === Node.js / React ===
+client/node_modules/
+client/dist/
+client/.env
+
+# === Laravel ===
+server/vendor/
+server/node_modules/
+server/.env
+server/storage/
+server/bootstrap/cache/
+server/public/storage/
+server/public/hot
+
+# === Build & Cache Files ===
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === OS / System Files ===
+.DS_Store
+Thumbs.db
+
+# === Editor Settings ===
+.vscode/
+.idea/
