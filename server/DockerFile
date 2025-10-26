@@ -37,7 +37,7 @@ WORKDIR /var/www
 COPY . .
 
 # Copy built frontend assets from Stage 1
-COPY --from=frontend /app/public/dist ./public/dist
+COPY --from=frontend /app/dist ./public/dist
 
 # Install PHP dependencies (optimize for production)
 RUN composer install --no-dev --optimize-autoloader
