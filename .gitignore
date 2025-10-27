@@ -1,6 +1,5 @@
 # === Node.js / React ===
 client/node_modules/
-client/dist/
 client/.env
 
 # === Laravel ===
