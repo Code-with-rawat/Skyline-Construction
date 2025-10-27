@@ -1,41 +1,33 @@
-
-
-# ===============================
-# Stage 2 - Backend (Laravel + PHP)
-# ===============================
-FROM php:8.2-fpm AS backend
+# Stage 1: Build PHP app
+FROM php:8.2-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl unzip libpq-dev libonig-dev libzip-dev zip \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+    git curl zip unzip sqlite3 libsqlite3-dev \
+    && docker-php-ext-install pdo pdo_sqlite
 
 # Set working directory
 WORKDIR /var/www
 
-# Copy Laravel backend code
+# Copy app files
 COPY . .
 
-# Install PHP dependencies (optimize for production)
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Ensure correct permissions for Laravel
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Create SQLite file
+RUN mkdir -p database && touch database/database.sqlite
 
-
-# Clear and cache Laravel configuration
+# Optimize Laravel cache
 RUN php artisan config:clear && \
     php artisan route:clear && \
-    php artisan view:clear && \
-    php artisan config:cache && \
-    php artisan route:cache
+    php artisan view:clear
 
-# Expose Render port
+# Expose Render's required port
 EXPOSE 10000
 
-# Start Laravel server on Render-compatible port
+# Start Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
