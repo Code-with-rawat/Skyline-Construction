@@ -23,17 +23,14 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Copy .env if available (optional)
-# COPY .env.example .env
-
 # Clear and optimize Laravel caches
 RUN php artisan config:clear \
     && php artisan route:clear \
     && php artisan view:clear \
     && php artisan optimize
 
-# Expose PHP-FPM port
-EXPOSE 9000
+# Expose Render's required port
+EXPOSE 10000
 
-# Start PHP-FPM
-CMD ["php-fpm"]
+# Wait for MySQL to be ready before migration
+CMD bash -c "sleep 10 && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000"
