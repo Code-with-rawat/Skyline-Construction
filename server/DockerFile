@@ -1,27 +1,33 @@
-# Use PHP 8.2 FPM image
+# Use PHP 8.2 FPM
 FROM php:8.2-fpm
 
-# Install system dependencies and extensions
+# Install system dependencies & required libraries
 RUN apt-get update && apt-get install -y \
-    git curl unzip libpng-dev libjpeg-dev libfreetype6-dev libzip-dev zip \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip bcmath gd
+    git curl unzip libpng-dev libjpeg-dev libfreetype6-dev libzip-dev zip libonig-dev libxml2-dev libicu-dev g++ \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip bcmath gd intl
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy composer and install dependencies
+# Copy composer files and install dependencies
 COPY composer.json composer.lock ./
-RUN curl -sS https://getcomposer.org/installer | php
-RUN php composer.phar install --no-dev --optimize-autoloader
+RUN curl -sS https://getcomposer.org/installer | php \
+    && php composer.phar install --no-dev --optimize-autoloader
 
-# Copy project files
+# Copy all project files
 COPY . .
 
-# Set permissions
+# Set correct permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port (optional)
-EXPOSE 8000
+# ✅ Run artisan commands automatically during build
+RUN php artisan config:clear || true
+RUN php artisan key:generate --force || true
+RUN php artisan migrate --force || true
 
-# Run PHP-FPM server
+# Expose PHP-FPM port
+EXPOSE 9000
+
+# Start PHP-FPM server
 CMD ["php-fpm"]
