@@ -1,30 +1,43 @@
-# Stage 1: Build PHP app
-FROM php:8.2-fpm
+# Use PHP with Apache
+FROM php:8.2-apache
 
-# Install system dependencies
+# Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip sqlite3 libsqlite3-dev \
-    && docker-php-ext-install pdo pdo_sqlite
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    libzip-dev \
+    libpq-dev \
+    default-mysql-client \
+    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
 
 # Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/html
 
-# Copy app files
+# Copy project files
 COPY . .
 
+# Copy Apache vhost configuration (optional)
+# COPY ./vhost.conf /etc/apache2/sites-available/000-default.conf
+
 # Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Optimize Laravel cache
-RUN php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan view:clear
+# Permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose Render's required port
-EXPOSE 10000
+# Expose Render's dynamic port
+EXPOSE 8000
 
-# Start Laravel
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
+# Start Laravel server
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
