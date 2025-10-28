@@ -18,9 +18,6 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Create SQLite file
-RUN mkdir -p database && touch database/database.sqlite
-
 # Optimize Laravel cache
 RUN php artisan config:clear && \
     php artisan route:clear && \
