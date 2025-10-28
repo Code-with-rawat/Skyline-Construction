@@ -25,8 +25,7 @@ RUN php artisan config:clear || true
 RUN php artisan key:generate --force || true
 RUN php artisan migrate --force || true
 
-# Expose PHP-FPM port
-EXPOSE 9000
+EXPOSE 8000
 
-# Start PHP-FPM server
-CMD ["php-fpm"]
+# 👇 Laravel serve instead of php-fpm
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
