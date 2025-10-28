@@ -1,13 +1,16 @@
+# Use PHP 8.2 with FPM
 FROM php:8.2-fpm
 
-# Install system dependencies
+# Install system dependencies and MySQL extension
 RUN apt-get update && apt-get install -y \
     git curl unzip libpq-dev libonig-dev libzip-dev zip \
+    libpng-dev libjpeg-dev libfreetype6-dev libssl-dev \
     && docker-php-ext-install pdo pdo_mysql mbstring zip
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Set working directory
 WORKDIR /var/www
 
 # Copy app files
@@ -16,15 +19,21 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Laravel setup
-RUN php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan view:clear
+# Set permissions for Laravel storage and bootstrap
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
+# Copy .env if available (optional)
+# COPY .env.example .env
 
+# Clear and optimize Laravel caches
+RUN php artisan config:clear \
+    && php artisan route:clear \
+    && php artisan view:clear \
+    && php artisan optimize
 
-# Expose Render's dynamic port
-EXPOSE 8000
+# Expose PHP-FPM port
+EXPOSE 9000
 
-# Start Laravel server
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
+# Start PHP-FPM
+CMD ["php-fpm"]
