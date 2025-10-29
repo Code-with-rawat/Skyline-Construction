@@ -1,5 +1,5 @@
-# Use official PHP 8.2 with FPM
-FROM php:8.2-fpm
+# ✅ Use official PHP 8.2 CLI image (supports artisan serve)
+FROM php:8.2-cli
 
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -10,22 +10,22 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy all project files into container
+# Copy all project files
 COPY . .
 
 # Install Composer and PHP dependencies
 RUN curl -sS https://getcomposer.org/installer | php \
     && php composer.phar install --no-dev --optimize-autoloader
 
-# Set correct permissions for storage and cache
+# Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Clear caches and run migrations (safe if DB not ready yet)
+# Clear caches, generate key (safe to ignore DB errors)
 RUN php artisan config:clear || true
 RUN php artisan key:generate --force || true
-RUN php artisan migrate --force || true
 
-EXPOSE 8000
+# ✅ Expose port (Railway/Render auto-detects)
+EXPOSE 10000
 
-# 👇 Laravel serve instead of php-fpm
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# ✅ Start Laravel server (dynamic port)
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
