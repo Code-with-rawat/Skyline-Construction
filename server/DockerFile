@@ -25,7 +25,8 @@ RUN php artisan config:clear || true
 RUN php artisan key:generate --force || true
 RUN php artisan migrate --force || true
 
-EXPOSE 8080
+# ✅ Expose default port
+EXPOSE 10000
 
-# 👇 Laravel serve instead of php-fpm
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+# ✅ Run Laravel on either given PORT or default 10000
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
