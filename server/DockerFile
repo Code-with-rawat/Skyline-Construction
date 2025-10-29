@@ -1,31 +1,33 @@
-# ✅ Use official PHP 8.2 CLI image (supports artisan serve)
+# ✅ Use official PHP 8.2 CLI image (works with artisan serve)
 FROM php:8.2-cli
 
-# Install system dependencies and PHP extensions
+# ✅ Install required system packages and PHP extensions
 RUN apt-get update && apt-get install -y \
     git curl unzip libpng-dev libjpeg-dev libfreetype6-dev libzip-dev zip libonig-dev libxml2-dev libicu-dev g++ \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mbstring zip bcmath gd intl
 
-# Set working directory
+# ✅ Set working directory
 WORKDIR /var/www/html
 
-# Copy all project files
+# ✅ Copy project files
 COPY . .
 
-# Install Composer and PHP dependencies
+# ✅ Install Composer and dependencies
 RUN curl -sS https://getcomposer.org/installer | php \
     && php composer.phar install --no-dev --optimize-autoloader
 
-# Permissions
+# ✅ Set correct permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Clear caches, generate key (safe to ignore DB errors)
+# ✅ Clear and optimize app config
 RUN php artisan config:clear || true
-RUN php artisan key:generate --force || true
+RUN php artisan cache:clear || true
+RUN php artisan route:clear || true
+RUN php artisan view:clear || true
 
 # ✅ Expose port (Railway/Render auto-detects)
 EXPOSE 10000
 
-# ✅ Start Laravel server (dynamic port)
+# ✅ Start Laravel server (uses Railway’s $PORT env)
 CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
