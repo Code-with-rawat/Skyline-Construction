@@ -14,4 +14,4 @@ services:
       - key: APP_DEBUG
         value: false
       - key: APP_URL
-        value: https://skyline-construction-6.onrender.com
+        value: https://skyline-construction-1.onrender.com
