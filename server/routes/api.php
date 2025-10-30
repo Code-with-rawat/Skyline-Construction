@@ -32,6 +32,17 @@ Route::get('get-latest-testmonials',[FrontTestmonialController::class,'latestTes
 Route::get('get-members',[FrontMemberController::class,'index']);
 Route::get('get-latest-members',[FrontMemberController::class,'latestMembers']);
  Route::post('contact-now',[ContactController::class,'index']);
+   Route::get('projects',[ProjectController::class,'index']);
+    Route::get('testmonials',[TestmonialController::class, 'index']);
+    Route::get('services',[ServiceController::class,'index']);
+    Route::get('services/{id}',[ServiceController::class,'show']);
+    Route::get('projects/{id}',[ProjectController::class,'show']);
+    Route::get('projects',[ProjectController::class,'index']);
+    Route::get('articles',[ArticleController::class,'index']);
+    Route::get('articles/{id}',[ArticleController::class,'show']);
+    Route::get('testmonials/{id}',[TestmonialController::class,'show']);
+
+
 
 
 Route::get('/user', function (Request $request) {
@@ -45,39 +56,30 @@ Route::get('/user', function (Request $request) {
 
     //Service Routes
     Route::post('services',[ServiceController::class,'store']);
-    Route::get('services',[ServiceController::class,'index']);
     Route::put('services/{id}',[ServiceController::class,'update']);
-    Route::get('services/{id}',[ServiceController::class,'show']);
     Route::delete('services/{id}',[ServiceController::class,'destroy']);
 
     //project Routes
     Route::post('projects',[ProjectController::class,'store']);
-    Route::get('projects',[ProjectController::class,'index']);
     Route::put('projects/{id}',[ProjectController::class,'update']);
-    Route::get('projects/{id}',[ProjectController::class,'show']);
     Route::delete('projects/{id}',[ProjectController::class,'destroy']);
-
+    
     //Contact Routes
 
    
 
     //Articles Routes
     Route::post('articles',[ArticleController::class,'store']);
-    Route::get('articles',[ArticleController::class,'index']);
-    Route::get('articles/{id}',[ArticleController::class,'show']);
     Route::put('articles/{id}',[ArticleController::class,'update']);
     Route::delete('articles/{id}',[ArticleController::class,'destroy']);
 
     //Testmonial Routes
     Route::post('testmonials',[TestmonialController::class,'store']);
-    Route::get('testmonials',[TestmonialController::class, 'index']);
-    Route::get('testmonials/{id}',[TestmonialController::class,'show']);
     Route::put('testmonials/{id}',[TestmonialController::class,'update']);
     Route::delete('testmonials/{id}',[TestmonialController::class,'destroy']);
 
     //Members Routes
      Route::post('members',[MemberController::class,'store']);
-    Route::get('members',[MemberController::class, 'index']);
     Route::get('members/{id}',[MemberController::class,'show']);
     Route::put('members/{id}',[MemberController::class,'update']);
     Route::delete('members/{id}',[MemberController::class,'destroy']);
