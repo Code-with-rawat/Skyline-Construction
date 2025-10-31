@@ -31,7 +31,7 @@ const LatestArticles = () => {
               <div key={`articles-${article.id}`} className="col-md-4">
                 <div className="card shadow border-0">
                   <div className="card-img-top">
-                    <img src={`${fileUrl}uploads/articles/small/${article.image}`} className="w-100"/>
+                    <img src={`${fileUrl}Uploads/Articles/Small/${article.image}`} className="w-100"/>
                   </div>
                   <div className="card-body p-4">
                     <div className="mb-3">
