@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import {useNavigate} from 'react-router-dom'
 import { AuthContext } from "./Context/Auth";
+import { apiUrl } from "../Common/Https";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const res = await fetch('http://localhost:8000/api/authenticate',{
+    const res = await fetch( apiUrl + 'authenticate',{
         method : 'POST',
         headers : {
             'Content-type' : 'application/json'
