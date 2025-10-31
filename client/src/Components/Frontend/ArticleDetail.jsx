@@ -48,7 +48,7 @@ const ArticleDetail = () => {
                             <h2>{article.title}</h2>
                             <div className='pb-3'>by {article.author}  on {article.created_at}</div>
                             <div className='pe-md-5 pb-3'>
-                             <img className='w-100' src={`${fileUrl}uploads/articles/large/${article.image}`} alt="" />
+                             <img className='w-100' src={`${fileUrl}Uploads/Articles/Large/${article.image}`} alt="" />
                                 
                             </div>
                             <div dangerouslySetInnerHTML={{__html:article.content}}>
@@ -64,7 +64,7 @@ const ArticleDetail = () => {
                                     return(
                                          <div className='d-flex border-bottom pb-2 mb-3'>
                                     <div className='pe-3 pb-2'>
-                            <Link to={`/article/${articles.id}`}> <img width={100} src={`${fileUrl}uploads/articles/small/${articles.image}`} alt="" /></Link>
+                            <Link to={`/article/${articles.id}`}> <img width={100} src={`${fileUrl}Uploads/Articles/Small/${articles.image}`} alt="" /></Link>
                                     </div>
                                     <Link to={`/article/${articles.id}`} className='title'>{articles.title}</Link>
                                     <hr/>

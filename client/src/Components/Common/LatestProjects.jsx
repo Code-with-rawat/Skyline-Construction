@@ -36,7 +36,7 @@ const LatestProjects = () => {
               <div key={project.id} className="col-md-3 col-lg-3">
                 <div className="item">
                   <div className="service-image">
-                    <img src={`${fileUrl}uploads/projects/small/${project.image}`} className="w-100"/>
+                    <img src={`${fileUrl}Uploads/Projects/Small/${project.image}`} className="w-100"/>
                   </div>
                   <div className="service-body">
                     <div className="service-title">

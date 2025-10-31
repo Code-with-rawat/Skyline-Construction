@@ -50,7 +50,7 @@ const Services = () => {
               <div key={service.id} className="col-md-3 col-lg-3">
                 <div className="item">
                   <div className="service-image">
-                    <img src={`${fileUrl}uploads/services/small/${service.image}`} className="w-100"/>
+                    <img src={`${fileUrl}Uploads/Services/Small/${service.image}`} className="w-100"/>
                   </div>
                   <div className="service-body">
                     <div className="service-title">

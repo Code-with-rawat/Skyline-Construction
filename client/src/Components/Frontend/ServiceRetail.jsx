@@ -65,7 +65,7 @@ const ServiceRetail = () => {
             </div>
             <div className='col-md-9'>
             <div>
-              <img className='w-100' src={`${fileUrl}uploads/services/large/${service.image}`} alt="" />
+              <img className='w-100' src={`${fileUrl}Uploads/Services/Large/${service.image}`} alt="" />
             </div>
             <h3 className='py-3'>{service.title}</h3>
             <div dangerouslySetInnerHTML={{__html: service.content}}>      

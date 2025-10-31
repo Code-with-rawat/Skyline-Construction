@@ -33,7 +33,7 @@ const LatestMembers = () => {
               <div key={member.id} className="col-md-6  col-lg-3 mb-3">
                 <div className="card shadow border-0">
                   <div className="card-img-top">
-                     <img src={`${fileUrl}uploads/members/${member.image}`}  className='w-100'/>
+                     <img src={`${fileUrl}Uploads/Members/${member.image}`}  className='w-100'/>
                   </div>
                   <div className="card-body p-4">
                     <div className="card-title pb-0 mb-0">{member.name}</div>

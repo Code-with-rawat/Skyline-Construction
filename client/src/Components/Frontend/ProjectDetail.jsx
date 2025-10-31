@@ -78,7 +78,7 @@ const ProjectDetail = () => {
             </div>
             <div className='col-md-8'>
             <div>
-              <img className='w-100' src={`${fileUrl}uploads/projects/large/${project.image}`} alt="" />
+              <img className='w-100' src={`${fileUrl}Uploads/Projects/Large/${project.image}`} alt="" />
             </div>
             <h3 className='py-3'>{project.title}</h3>
             <div dangerouslySetInnerHTML={{__html: project.content}}>      
