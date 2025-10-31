@@ -79,7 +79,7 @@ const LatestTestimonials = () => {
                     <hr />
                     <div className="d-flex meta">
                       <div>
-                        <img src={`${fileUrl}Uploads/Testmonials/${testmonial.image}`} width={50}/>
+                        <img src={`${fileUrl}Uploads/testmonials/${testmonial.image}`} width={50}/>
                       </div>
                       <div className="ps-3">
                           <div className="name">{testmonial.citation}</div>
