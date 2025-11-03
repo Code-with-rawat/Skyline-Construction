@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react'
 import NavSection from '../Common/NavSection'
 import Footer from '../Common/Footer'
 
-// import BlogsImage from "../../assets/images/construction121.jpg";
-// import BlogsImage1 from "../../assets/images/construction7.jpg";
-// import BlogsImage2 from "../../assets/images/construction123.jpg";
 
 import Hero from '../Common/Hero';
 import { apiUrl, fileUrl } from '../Common/Https';
